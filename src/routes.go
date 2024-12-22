@@ -39,7 +39,7 @@ func initializeRoutes() {
 	{
 		bucketRoutes.GET("/:name/objects/:prefix", httpHandlers.ListBucketObjects)
 
-		bucketRoutes.DELETE("/:name/object/:objectName", httpHandlers.DeleteObject)
+		bucketRoutes.DELETE("/:name/object/*objectName", httpHandlers.DeleteObject)
 
 		bucketRoutes.POST("/:name/object/rename", httpHandlers.RenameObject)
 

@@ -183,6 +183,17 @@ func combineAndUploadFile(destinationPath, sourcePrefix string, numChunks uint64
 		return err
 	}
 
+	// Delete all chunks from the uploads bucket
+    for i := uint64(0); i < numChunks; i++ {
+        chunkFilePath := path.Join(sourcePrefix, fmt.Sprintf(chunkFilenameFormat, i))
+        err := storage.DeleteObject(storage.UploadsBucket, chunkFilePath)
+        if err != nil {
+            log.Printf("Failed to delete chunk %s: %v", chunkFilePath, err)
+        } else {
+            log.Printf("Deleted chunk %s", chunkFilePath)
+        }
+    }
+
 	log.Printf("Successfully composed and uploaded object: %s/%s", storage.DataBucket, destinationPath)
 	wg.Done()
 	return nil
